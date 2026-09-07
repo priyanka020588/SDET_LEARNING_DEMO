@@ -1,0 +1,11 @@
+body { font-family: sans-serif; margin: 0; background: #f4f1ea; color: #222; }
+.card, .page { max-width: 720px; margin: 2rem auto; padding: 1.5rem; background: #fff; border-radius: 12px; }
+.header { display: flex; gap: 1rem; align-items: center; padding: 1rem 2rem; background: #3d2b1f; color: #fff; }
+.header a, .header button { color: #fff; }
+.grid { display: grid; gap: 1rem; }
+.product { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; }
+.error { color: #b00020; margin-bottom: 1rem; }
+label { display: block; margin: 0.75rem 0; }
+input { width: 100%; padding: 0.5rem; box-sizing: border-box; }
+button { padding: 0.6rem 1rem; cursor: pointer; }
+.cart { margin-left: auto; }

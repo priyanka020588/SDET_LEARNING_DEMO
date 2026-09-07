@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Demo Shop — Home</title>
+    <link rel="stylesheet" href="/static/app.css"/>
+</head>
+<body>
+{{header}}
+<main class="page">
+    <h1 data-test="home-heading">Catalog</h1>
+    <p data-test="welcome-text">Welcome, {{firstName}}</p>
+    <section data-test="product-list" class="grid">
+        {{products}}
+    </section>
+</main>
+</body>
+</html>

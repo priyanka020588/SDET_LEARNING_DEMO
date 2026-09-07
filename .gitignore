@@ -1,0 +1,12 @@
+target/
+reports/
+logs/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.DS_Store
+*.log
+.chrome/
+.mvn/wrapper/maven-wrapper.jar

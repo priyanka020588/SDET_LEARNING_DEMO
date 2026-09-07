@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Demo Shop — Checkout</title>
+    <link rel="stylesheet" href="/static/app.css"/>
+</head>
+<body>
+{{header}}
+<main class="page">
+    <h1 data-test="checkout-heading">Checkout</h1>
+    <p data-test="checkout-summary">{{summary}}</p>
+    <form id="checkout-form" class="card">
+        <label>
+            First name
+            <input data-test="ship-first-name" name="firstName" type="text"/>
+        </label>
+        <label>
+            Last name
+            <input data-test="ship-last-name" name="lastName" type="text"/>
+        </label>
+        <label>
+            Address
+            <input data-test="ship-address" name="address" type="text"/>
+        </label>
+        <button data-test="place-order" type="submit">Place order</button>
+    </form>
+</main>
+<script>
+    document.getElementById("checkout-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const body = new URLSearchParams(new FormData(event.target));
+        const response = await fetch("/checkout", {method: "POST", body, credentials: "same-origin"});
+        if (response.redirected) {
+            window.location.href = response.url;
+        }
+    });
+</script>
+</body>
+</html>

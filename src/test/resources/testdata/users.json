@@ -1,0 +1,12 @@
+{
+  "invalidPassword": "definitely-wrong",
+  "expectedLoginError": "Username or password is incorrect",
+  "staticUsers": [
+    {
+      "firstName": "Casey",
+      "lastName": "Reader",
+      "username": "casey.reader",
+      "password": "Password123!"
+    }
+  ]
+}

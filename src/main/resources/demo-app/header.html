@@ -1,0 +1,11 @@
+<header data-test="app-header" class="header">
+    <a href="/home">Demo Shop</a>
+    <span data-test="header-user">{{firstName}}</span>
+    <div data-test="cart-widget" class="cart">
+        <span data-test="cart-count">{{cartCount}}</span>
+        <a data-test="cart-checkout" href="/checkout">Checkout</a>
+    </div>
+    <form action="/logout" method="post">
+        <button data-test="logout" type="submit">Log out</button>
+    </form>
+</header>

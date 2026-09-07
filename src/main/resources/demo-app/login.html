@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Demo Shop — Login</title>
+    <link rel="stylesheet" href="/static/app.css"/>
+</head>
+<body>
+<main class="card">
+    <h1>Demo Shop</h1>
+    <p>Sign in to continue</p>
+    <div data-test="login-error" class="error" hidden></div>
+    <form id="login-form">
+        <label>
+            Username
+            <input data-test="username" name="username" type="text" autocomplete="username"/>
+        </label>
+        <label>
+            Password
+            <input data-test="password" name="password" type="password" autocomplete="current-password"/>
+        </label>
+        <button data-test="login-submit" type="submit">Log in</button>
+    </form>
+</main>
+<script>
+    const form = document.getElementById("login-form");
+    const error = document.querySelector("[data-test='login-error']");
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        error.hidden = true;
+        const body = new URLSearchParams(new FormData(form));
+        const response = await fetch("/login", {method: "POST", body, credentials: "same-origin"});
+        if (response.redirected) {
+            window.location.href = response.url;
+            return;
+        }
+        const data = await response.json();
+        error.textContent = data.message || "Login failed";
+        error.hidden = false;
+    });
+</script>
+</body>
+</html>
