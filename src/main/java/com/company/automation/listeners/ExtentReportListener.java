@@ -8,24 +8,34 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.company.automation.base.DriverFactory;
 import com.company.automation.utils.ScreenshotUtil;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 public class ExtentReportListener implements ITestListener {
+    private static final DateTimeFormatter REPORT_STAMP =
+            DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss");
     private static ExtentReports extent;
     private static final ThreadLocal<ExtentTest> TEST = new ThreadLocal<>();
 
     @Override
     public void onStart(ITestContext context) {
         if (extent == null) {
-            Path report = Path.of("reports", "extent-report.html");
-            report.toFile().getParentFile().mkdirs();
-            ExtentSparkReporter spark = new ExtentSparkReporter(report.toString());
-            spark.config().setDocumentTitle("SDET Selenium Demo");
-            spark.config().setReportName("Demo Shop regression");
+            Path reportsDir = Path.of("reports");
+            reportsDir.toFile().mkdirs();
+            String stamp = LocalDateTime.now().format(REPORT_STAMP);
+            Path archived = reportsDir.resolve("extent-report-" + stamp + ".html");
+            Path latest = reportsDir.resolve("extent-report.html");
+            ExtentSparkReporter archivedReporter = new ExtentSparkReporter(archived.toString());
+            ExtentSparkReporter latestReporter = new ExtentSparkReporter(latest.toString());
+            archivedReporter.config().setDocumentTitle("SDET Selenium Demo");
+            archivedReporter.config().setReportName("Demo Shop regression");
+            latestReporter.config().setDocumentTitle("SDET Selenium Demo");
+            latestReporter.config().setReportName("Demo Shop regression");
             extent = new ExtentReports();
-            extent.attachReporter(spark);
+            extent.attachReporter(archivedReporter, latestReporter);
         }
     }
 
