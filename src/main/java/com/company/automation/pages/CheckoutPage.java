@@ -12,7 +12,6 @@ public class CheckoutPage extends BasePage {
     private final By lastName = By.cssSelector("[data-test='ship-last-name']");
     private final By address = By.cssSelector("[data-test='ship-address']");
     private final By placeOrder = By.cssSelector("[data-test='place-order']");
-    private final By confirmation = By.cssSelector("[data-test='confirmation-message']");
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
@@ -33,12 +32,8 @@ public class CheckoutPage extends BasePage {
         return this;
     }
 
-    public CheckoutPage placeOrder() {
+    public ConfirmationPage placeOrder() {
         click(placeOrder);
-        return this;
-    }
-
-    public String confirmationMessage() {
-        return readText(confirmation);
+        return new ConfirmationPage(driver);
     }
 }
