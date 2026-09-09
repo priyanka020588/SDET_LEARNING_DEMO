@@ -6,6 +6,7 @@ import com.company.automation.api.UserApiHelper;
 import com.company.automation.base.BaseTest;
 import com.company.automation.data.User;
 import com.company.automation.pages.CheckoutPage;
+import com.company.automation.pages.ConfirmationPage;
 import com.company.automation.pages.HomePage;
 import com.company.automation.pages.LoginPage;
 import com.company.automation.utils.ExcelReader;
@@ -27,8 +28,8 @@ public class CheckoutTest extends BaseTest {
         assertThat(checkout.isLoaded()).isTrue();
         assertThat(checkout.summaryText()).contains(product.get("name"));
 
-        checkout.fillShipping(user, "12 Automation Way").placeOrder();
-        assertThat(checkout.confirmationMessage())
+        ConfirmationPage confirmation = checkout.fillShipping(user, "12 Automation Way").placeOrder();
+        assertThat(confirmation.confirmationMessage())
                 .contains(user.getFirstName())
                 .contains(product.get("price"));
     }
