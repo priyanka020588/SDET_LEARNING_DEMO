@@ -1,5 +1,7 @@
 {
   "invalidPassword": "definitely-wrong",
+  "invalidUsername": "unknown-user",
+  "emptyUsername": "",
   "expectedLoginError": "Username or password is incorrect",
   "staticUsers": [
     {
