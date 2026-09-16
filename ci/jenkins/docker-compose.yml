@@ -1,0 +1,21 @@
+services:
+  jenkins:
+    build: .
+    image: sdet-jenkins:local
+    container_name: sdet-jenkins
+    restart: unless-stopped
+    shm_size: "2gb"
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      JAVA_OPTS: "-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true"
+      CHROME_BIN: /usr/bin/chromium
+    volumes:
+      - sdet-jenkins-home:/var/jenkins_home
+      - ../..:/workspace/repo
+
+volumes:
+  sdet-jenkins-home:
+    name: sdet-jenkins-home
+    external: true

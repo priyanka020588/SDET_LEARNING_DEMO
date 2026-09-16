@@ -103,8 +103,11 @@ selenium-automation-framework/
 ├── logs/                            Generated: run logs
 ├── target/                          Generated: compiled output
 │
+├── Jenkinsfile                      Same suite for a self-hosted Jenkins
+├── mvnw                             Maven Wrapper (CI does not need Maven preinstalled)
+│
 └── .github/workflows/
-    └── regression.yml               CI pipeline
+    └── ci.yml                       GitHub Actions: smoke on PR, regression nightly
 ```
 
 ---

@@ -39,6 +39,10 @@ public final class DriverFactory {
 
     private static ChromeOptions chromeOptions() {
         ChromeOptions options = new ChromeOptions();
+        String chromeBin = System.getenv("CHROME_BIN");
+        if (chromeBin != null && !chromeBin.isBlank()) {
+            options.setBinary(chromeBin);
+        }
         if (headless()) {
             options.addArguments("--headless=new");
         }

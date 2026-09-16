@@ -9,6 +9,19 @@ Working implementation of the structure in `sdet-project-structure.md`. Tests ru
 
 Maven is included as `./mvnw`.
 
+## CI
+
+**Local Jenkins** (this Mac): http://localhost:8080/job/sdet-demo/
+
+The `sdet-demo` job is a multibranch pipeline. After you **commit** on any branch that has `Jenkinsfile`, Jenkins scans the repo every 2 minutes and runs:
+
+- feature branches → smoke
+- `main` → regression
+
+Build with Parameters if you want to force `smoke` or `regression`. Reports are on the build page (JUnit + archived `reports/`, `logs/`).
+
+**GitHub Actions** (hosted): `.github/workflows/ci.yml` — smoke on PRs, regression nightly. See `docs/ci.md`.
+
 ## Run tests
 
 ```bash
