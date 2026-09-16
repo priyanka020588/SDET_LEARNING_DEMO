@@ -48,6 +48,7 @@ public final class DemoShopServer {
         server.createContext("/home", DemoShopServer::handleHome);
         server.createContext("/cart", DemoShopServer::handleCart);
         server.createContext("/checkout", DemoShopServer::handleCheckout);
+        server.createContext("/confirmation", DemoShopServer::handleConfirmation);
         server.createContext("/api/users", DemoShopServer::handleCreateUser);
         server.createContext("/api/products", DemoShopServer::handleProducts);
         server.createContext("/static/", DemoShopServer::handleStatic);
@@ -173,14 +174,26 @@ public final class DemoShopServer {
             return;
         }
         if ("POST".equals(exchange.getRequestMethod())) {
-            String total = session.cart.isEmpty() ? "$0.00" : session.cart.get(0).price;
-            String html = load("demo-app/confirmation.html")
-                    .replace("{{header}}", header(session))
-                    .replace("{{firstName}}", session.user.firstName)
-                    .replace("{{total}}", total);
+            session.lastOrderTotal = session.cart.isEmpty() ? "$0.00" : session.cart.get(0).price;
             session.cart.clear();
-            writeHtml(exchange, 200, html);
+            Headers headers = exchange.getResponseHeaders();
+            headers.add("Location", "/confirmation");
+            exchange.sendResponseHeaders(302, -1);
+            exchange.close();
         }
+    }
+
+    private static void handleConfirmation(HttpExchange exchange) throws IOException {
+        Session session = requireSession(exchange);
+        if (session == null) {
+            return;
+        }
+        String total = session.lastOrderTotal != null ? session.lastOrderTotal : "$0.00";
+        String html = load("demo-app/confirmation.html")
+                .replace("{{header}}", header(session))
+                .replace("{{firstName}}", session.user.firstName)
+                .replace("{{total}}", total);
+        writeHtml(exchange, 200, html);
     }
 
     private static void handleCreateUser(HttpExchange exchange) throws IOException {
@@ -309,6 +322,7 @@ public final class DemoShopServer {
     private static final class Session {
         private final UserRecord user;
         private final List<ProductRecord> cart = new ArrayList<>();
+        private String lastOrderTotal;
 
         private Session(UserRecord user) {
             this.user = user;
