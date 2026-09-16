@@ -33,6 +33,12 @@
         const response = await fetch("/checkout", {method: "POST", body, credentials: "same-origin"});
         if (response.redirected) {
             window.location.href = response.url;
+            return;
+        }
+        if (response.ok) {
+            document.open();
+            document.write(await response.text());
+            document.close();
         }
     });
 </script>

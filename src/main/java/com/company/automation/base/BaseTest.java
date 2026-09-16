@@ -3,6 +3,9 @@ package com.company.automation.base;
 import com.company.automation.config.ConfigReader;
 import com.company.automation.config.Environment;
 import com.company.automation.demo.DemoShopServer;
+import com.company.automation.listeners.ExtentReportListener;
+import com.company.automation.listeners.RetryListener;
+import com.company.automation.listeners.TestListener;
 import com.company.automation.utils.ScreenshotUtil;
 import java.io.IOException;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +14,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
 
+@Listeners({TestListener.class, ExtentReportListener.class, RetryListener.class})
 public abstract class BaseTest {
 
     @BeforeSuite(alwaysRun = true)
