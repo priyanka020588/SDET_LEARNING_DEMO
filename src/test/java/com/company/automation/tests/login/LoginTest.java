@@ -30,4 +30,20 @@ public class LoginTest extends BaseTest {
                 .loginExpectingFailure(user.withPassword(invalidPassword));
         assertThat(page.errorMessage()).isEqualTo(AppConstants.LOGIN_ERROR);
     }
+
+    @Test(groups = {"regression"})
+    public void invalidUsernameShowsError() {
+        String invalidUsername = JsonReader.read("testdata/users.json").get("invalidUsername").asText();
+        LoginPage page = new LoginPage(getDriver())
+                .loginExpectingFailure(new User("Any", "User", invalidUsername, "any-password"));
+        assertThat(page.errorMessage()).isEqualTo(AppConstants.LOGIN_ERROR);
+    }
+
+    @Test(groups = {"regression"})
+    public void emptyUsernameShowsError() {
+        String emptyUsername = JsonReader.read("testdata/users.json").get("emptyUsername").asText();
+        LoginPage page = new LoginPage(getDriver())
+                .loginExpectingFailure(new User("Any", "User", emptyUsername, "any-password"));
+        assertThat(page.errorMessage()).isEqualTo(AppConstants.LOGIN_ERROR);
+    }
 }
