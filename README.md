@@ -39,4 +39,5 @@ Maven is included as `./mvnw`.
 
 Test data is created through `UserApiHelper.createActiveUser()` (HTTP POST), not by clicking a signup form. Catalog names and prices come from `src/test/resources/testdata/products.xlsx`.
 
-Added Comment from branch git_learning_b
+Added Comment from branch git_learning_a
+
