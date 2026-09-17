@@ -10,4 +10,3 @@ logs/
 *.log
 .chrome/
 .cursor/
-.mvn/wrapper/maven-wrapper.jar

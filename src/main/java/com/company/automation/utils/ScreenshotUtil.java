@@ -32,7 +32,7 @@ public final class ScreenshotUtil {
             File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             Files.copy(source.toPath(), destination);
             LOG.info("Saved screenshot {}", destination);
-            return destination.toAbsolutePath().toString();
+            return "screenshots/" + fileName;
         } catch (IOException exception) {
             LOG.error("Could not save screenshot for {}", testName, exception);
             return "";
