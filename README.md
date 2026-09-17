@@ -18,7 +18,7 @@ The `sdet-demo` job is a multibranch pipeline. After you **commit** on any branc
 - feature branches → smoke
 - `main` → regression
 
-Build with Parameters if you want to force `smoke` or `regression`. Reports are on the build page (JUnit + archived `reports/`, `logs/`).
+Build with Parameters if you want to force `smoke` or `regression`. On the build page: **Test Result** (JUnit), **Extent Report** (HTML Publisher), and archived `reports/` / `logs/`.
 
 **GitHub Actions** (hosted): `.github/workflows/ci.yml` — smoke on PRs, regression nightly. See `docs/ci.md`.
 

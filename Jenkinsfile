@@ -19,7 +19,8 @@ pipeline {
     environment {
         JAVA_HOME = '/opt/java/openjdk'
         PATH = "/opt/java/openjdk/bin:${env.PATH}"
-        CHROME_BIN = '/usr/bin/chromium'
+        CHROME_BIN = '/usr/lib/chromium/chromium'
+        CHROMEDRIVER = '/usr/bin/chromedriver'
         HEADLESS = 'true'
     }
 
@@ -60,6 +61,16 @@ pipeline {
             junit allowEmptyResults: true, testResults: 'target/surefire-reports/*.xml'
             archiveArtifacts allowEmptyArchive: true,
                 artifacts: 'reports/**,logs/**,target/surefire-reports/**'
+            publishHTML(target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : 'reports',
+                reportFiles          : 'extent-report.html',
+                reportName           : 'Extent Report',
+                includes             : '**/*',
+                escapeUnderscores    : false
+            ])
         }
     }
 }

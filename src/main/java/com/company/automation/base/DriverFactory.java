@@ -15,13 +15,19 @@ public final class DriverFactory {
     }
 
     public static void createDriver(String browser) {
+        String chromedriver = System.getenv("CHROMEDRIVER");
+        if (chromedriver != null && !chromedriver.isBlank()) {
+            System.setProperty("webdriver.chrome.driver", chromedriver);
+        }
         WebDriver driver = switch (browser.toLowerCase()) {
             case "firefox" -> new FirefoxDriver(firefoxOptions());
             default -> new ChromeDriver(chromeOptions());
         };
         // deliberately 0 - never mix implicit and explicit waits
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-        driver.manage().window().maximize();
+        if (!headless()) {
+            driver.manage().window().maximize();
+        }
         DRIVER.set(driver);
     }
 

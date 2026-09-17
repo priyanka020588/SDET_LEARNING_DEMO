@@ -11,7 +11,7 @@ How a code change becomes a build:
 1. Commit on a branch that contains `Jenkinsfile` (uncommitted files are invisible to Jenkins).
 2. Within about 2 minutes Jenkins scans branches and starts a run. Or open http://localhost:8080/job/sdet-demo/ and click **Scan Multibranch Pipeline Now**.
 3. Feature branches run **smoke**. `main` runs **regression**.
-4. Open the branch job → the build → **Test Result** and archived `reports/` (Extent HTML).
+4. Open the branch job → the build → **Extent Report** (HTML Publisher) and **Test Result**. Screenshots live next to the HTML under `reports/screenshots/`.
 
 Start / stop:
 
@@ -20,11 +20,13 @@ docker start sdet-jenkins
 docker stop sdet-jenkins
 ```
 
-Recreate with Chrome + the job definition (keeps your Jenkins login, wipes only the container):
+Recreate with Chrome, HTML Publisher, and the job definition (keeps your Jenkins login, wipes only the container):
 
 ```bash
 docker compose -f ci/jenkins/docker-compose.yml up -d --build
 ```
+
+Extent Spark needs inline CSS/JS. The image sets a relaxed Jenkins CSP on startup so the published report actually renders. Without HTML Publisher, the same files are still under **Build Artifacts**.
 
 For this repo, the free server that already exists is **GitHub Actions**. GitHub runs the agents. You create pipelines as YAML files. They start on their own when someone pushes, opens a PR, or when the nightly schedule fires.
 
@@ -111,4 +113,4 @@ Jenkins on that VM also needs **Chrome or Chromium** on the agent, or the Seleni
 
 ## Interview version
 
-> Jenkins is free to download, not free to host. In this project CI runs on GitHub Actions: smoke on every PR, full regression nightly, reports uploaded as artifacts. The same stages live in a `Jenkinsfile` so a self-hosted Jenkins can run the same suite later.
+> Jenkins is free to download, not free to host. In this project CI runs on GitHub Actions: smoke on every PR, full regression nightly, reports uploaded as artifacts. The same stages live in a `Jenkinsfile`. Extent is wired in with the HTML Publisher plugin (`publishHTML` on `reports/extent-report.html`) so the build page has an **Extent Report** link, not only a zip of artifacts.
