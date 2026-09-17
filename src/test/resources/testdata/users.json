@@ -3,6 +3,8 @@
   "invalidUsername": "unknown-user",
   "emptyUsername": "",
   "expectedLoginError": "Username or password is incorrect",
+  "wrongUsername": "invalid_user", 
+  "wrongPassword": "wrong_password", 
   "staticUsers": [
     {
       "firstName": "Casey",

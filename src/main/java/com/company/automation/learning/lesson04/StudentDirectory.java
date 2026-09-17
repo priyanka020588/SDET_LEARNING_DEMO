@@ -19,6 +19,7 @@ public final class StudentDirectory {
     /**
      * Like {@code UserApiHelper.createActiveUser()}: take a built object, save it, return it.
      */
+    // In the real project this is RestAssured POST /api/users
     public static Student register(Student student) {
         STORE.put(student.getName(), student);
         System.out.println("directory saved student: " + student.getName());
