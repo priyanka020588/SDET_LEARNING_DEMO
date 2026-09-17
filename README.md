@@ -13,6 +13,8 @@ Maven is included as `./mvnw`.
 
 **Local Jenkins** (this Mac): http://localhost:8080/job/sdet-demo/
 
+Step-by-step of how this was set up: `docs/jenkins-integration.md`.
+
 The `sdet-demo` job is a multibranch pipeline. After you **commit** on any branch that has `Jenkinsfile`, Jenkins scans the repo every 2 minutes and runs:
 
 - feature branches → smoke
