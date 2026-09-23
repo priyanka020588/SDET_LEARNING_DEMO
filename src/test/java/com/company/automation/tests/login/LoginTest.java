@@ -9,9 +9,14 @@ import com.company.automation.data.User;
 import com.company.automation.pages.HomePage;
 import com.company.automation.pages.LoginPage;
 import com.company.automation.utils.JsonReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest {
+
+    private static final Logger LOG = LogManager.getLogger(LoginTest.class);
 
     @Test(groups = {"smoke"})
     public void validUserCanLogIn() {
@@ -54,5 +59,25 @@ public class LoginTest extends BaseTest {
         LoginPage page = new LoginPage(getDriver())
                 .loginExpectingFailure(new User("Any", "User", wrongUsername, wrongPassword));
         assertThat(page.errorMessage()).isEqualTo(AppConstants.LOGIN_ERROR);
-}
+    }
+
+    @DataProvider(name = "invalidPasswords")
+    public Object[][] invalidPasswords() {
+        return new Object[][] {
+            {"definitely-wrong"},
+            {"12345"},
+            {""}
+        };
+    }
+
+    @Test(dataProvider = "invalidPasswords", groups = {"regression"})
+    public void loginRejectsInvalidPasswords(String badPassword) {
+        LOG.info("Testing bad password: {}", badPassword);
+
+        User user = UserApiHelper.createActiveUser();
+        LoginPage page = new LoginPage(getDriver())
+                .loginExpectingFailure(user.withPassword(badPassword));
+
+        assertThat(page.errorMessage()).isEqualTo(AppConstants.LOGIN_ERROR);
+    }
 }
