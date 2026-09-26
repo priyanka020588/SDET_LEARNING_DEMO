@@ -2,7 +2,7 @@ FROM jenkins/jenkins:latest
 
 USER root
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends chromium chromium-driver \
+    && apt-get install -y --no-install-recommends chromium chromium-driver docker-cli \
     && rm -rf /var/lib/apt/lists/*
 
 ENV CHROME_BIN=/usr/lib/chromium/chromium

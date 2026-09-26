@@ -1,0 +1,9 @@
+target/
+reports/
+logs/
+.idea/
+.git/
+.chrome/
+.cursor/
+*.iml
+.DS_Store

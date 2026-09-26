@@ -17,11 +17,8 @@ pipeline {
     }
 
     environment {
-        JAVA_HOME = '/opt/java/openjdk'
-        PATH = "/opt/java/openjdk/bin:${env.PATH}"
-        CHROME_BIN = '/usr/lib/chromium/chromium'
-        CHROMEDRIVER = '/usr/bin/chromedriver'
-        HEADLESS = 'true'
+        // Matches container_name in ci/jenkins/docker-compose.yml.
+        JENKINS_CONTAINER = 'sdet-jenkins'
     }
 
     stages {
@@ -40,17 +37,43 @@ pipeline {
                     }
                     env.SUITE_NAME = suite
                     env.SUITE_XML = "src/test/resources/suites/${suite}.xml"
-                    echo "Branch=${env.BRANCH_NAME} suite=${suite}"
+                    def safeBranch = (env.BRANCH_NAME ?: 'local').toLowerCase().replaceAll('[^a-z0-9_.-]', '-')
+                    env.TEST_IMAGE = "sdet-tests:${safeBranch}-${env.BUILD_NUMBER}"
+                    echo "Branch=${env.BRANCH_NAME} suite=${suite} image=${env.TEST_IMAGE}"
                 }
+            }
+        }
+
+        stage('Build test image') {
+            steps {
+                // The Docker engine is on the host, so it cannot read this workspace
+                // path. Stream the context through the socket instead.
+                sh '''
+                    set -euo pipefail
+                    tar -czf - \
+                      --exclude=target \
+                      --exclude=reports \
+                      --exclude=logs \
+                      --exclude=.git \
+                      --exclude=.chrome \
+                      --exclude=.cursor \
+                      . | docker build -t "${TEST_IMAGE}" -
+                '''
             }
         }
 
         stage('Test') {
             steps {
                 sh '''
-                    set -eu
-                    chmod +x mvnw
-                    ./mvnw -B test -DsuiteXmlFile="${SUITE_XML}" -Dheadless=true
+                    set -euo pipefail
+                    docker run --rm \
+                      --shm-size=2g \
+                      --volumes-from "${JENKINS_CONTAINER}" \
+                      -v sdet-m2:/root/.m2 \
+                      -w "${WORKSPACE}" \
+                      -e SUITE_XML \
+                      "${TEST_IMAGE}" \
+                      sh -c 'chmod +x mvnw && ./mvnw -B test -DsuiteXmlFile="${SUITE_XML}" -Dheadless=true; status=$?; chmod -R a+rwX target reports logs 2>/dev/null || true; exit $status'
                 '''
             }
         }
@@ -71,6 +94,11 @@ pipeline {
                 includes             : '**/*',
                 escapeUnderscores    : false
             ])
+            sh '''
+                if [ -n "${TEST_IMAGE:-}" ]; then
+                    docker rmi "${TEST_IMAGE}" || true
+                fi
+            '''
         }
     }
 }

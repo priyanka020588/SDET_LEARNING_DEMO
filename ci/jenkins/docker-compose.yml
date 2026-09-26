@@ -13,9 +13,14 @@ services:
       CHROME_BIN: /usr/lib/chromium/chromium
       CHROMEDRIVER: /usr/bin/chromedriver
       JAVA_TOOL_OPTIONS: "-Dwebdriver.chrome.driver=/usr/bin/chromedriver"
+    # The socket is root:root mode 660 inside the container. Group 0 lets the
+    # jenkins user talk to the host Docker engine.
+    group_add:
+      - "0"
     volumes:
       - sdet-jenkins-home:/var/jenkins_home
       - ../..:/workspace/repo
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   sdet-jenkins-home:
