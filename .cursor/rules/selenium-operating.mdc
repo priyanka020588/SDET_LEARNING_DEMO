@@ -1,0 +1,29 @@
+---
+description: Agent workflow — read first, never invent locators, run smoke after test changes
+alwaysApply: true
+---
+
+# Operating rules
+
+**Read existing code before you write new code.**
+
+## Must follow
+
+1. **Read first** — Open the closest existing page and test before adding methods or locators.
+2. **Reuse** — Use locators and helpers already in `src/main/java/com/company/automation/pages/**`.
+3. **Do not invent locators** — Never add `data-test` values or CSS selectors that are not in the app. If a locator is missing, stop and ask; do not guess.
+4. **Smoke after test changes** — Run:
+
+   ```bash
+   ./mvnw test -DsuiteXmlFile=src/test/resources/suites/smoke.xml
+   ```
+
+   Do not run full regression for every small change unless the ticket asks for it.
+
+5. **Do not delete or skip tests** to make the suite green.
+6. **Do not commit** `logs/`, `reports/`, secrets, or credentials (`.env`, keys, passwords).
+
+## Split from framework rules
+
+- **Framework rules** (`selenium-framework.mdc`) — how tests and pages should look.
+- **Operating rules** (this file) — how the agent works in this repo.
