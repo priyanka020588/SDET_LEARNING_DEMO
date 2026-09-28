@@ -9,4 +9,6 @@ logs/
 .DS_Store
 *.log
 .chrome/
-.cursor/
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
