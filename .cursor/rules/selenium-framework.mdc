@@ -1,0 +1,39 @@
+---
+Description: Demo Shop Selenium framework — tests vs pages, API data, waits
+alwaysApply: true
+---
+
+# Framework style
+
+**Tests describe intent. The framework knows how.**
+
+## Must follow
+
+1. **Assertions** only in test classes under `src/test/java/**` — never in page classes.
+2. **Locators** only in page classes under `src/main/java/**/pages/**` — never in tests.
+3. **Journey:** page actions return the next page (e.g. `loginAs()` → `HomePage`).
+4. **Data:** test data via API helpers such as `UserApiHelper` — not UI signup.
+5. **Waits:** no `Thread.sleep`; use `BasePage`, `WaitUtils`, or explicit waits.
+6. **Configuration:** no hard-coded URLs or credentials; use `ConfigReader` and `config.properties`.
+
+## Reference
+
+- Gold standard: `LoginPage.java`, `LoginTest.java`
+- Full guide: `sdet-project-structure.md` §5–6
+
+## Good vs bad
+
+**Bad (test):**
+
+```java
+driver.findElement(By.cssSelector("[data-test='login-submit']")).click();
+assertThat(driver.getTitle()).contains("Home");
+```
+
+**Good (test):**
+
+```java
+User user = UserApiHelper.createActiveUser();
+HomePage home = new LoginPage(getDriver()).loginAs(user);
+assertThat(home.isLoaded()).isTrue();
+```
