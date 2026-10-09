@@ -10,8 +10,8 @@ description: >-
 # Jira Create Tickets
 
 Create Jira issues in the connected Atlassian instance using the `user-jira` MCP namespace.
-
 ## Prerequisites
+
 
 - Jira MCP must be configured in `~/.cursor/mcp.json` (namespace: `user-jira`)
 - Default project: **SDET** (from `JIRA_PROJECTS_FILTER` unless the user specifies another project key)
