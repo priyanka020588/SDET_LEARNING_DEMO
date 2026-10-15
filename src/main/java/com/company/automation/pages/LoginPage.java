@@ -2,10 +2,14 @@ package com.company.automation.pages;
 
 import com.company.automation.base.BasePage;
 import com.company.automation.data.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class LoginPage extends BasePage {
+    private static final Logger LOG = LogManager.getLogger(LoginPage.class);
+
     private final By username = By.cssSelector("[data-test='username']");
     private final By password = By.cssSelector("[data-test='password']");
     private final By loginButton = By.cssSelector("[data-test='login-submit']");
@@ -16,6 +20,7 @@ public class LoginPage extends BasePage {
     }
 
     public HomePage loginAs(User user) {
+        LOG.debug("Logging in as {}", user.getUsername());
         type(username, user.getUsername());
         type(password, user.getPassword());
         click(loginButton);
