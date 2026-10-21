@@ -52,6 +52,18 @@ public class LoginTest extends BaseTest {
         assertThat(page.errorMessage()).isEqualTo(AppConstants.LOGIN_ERROR);
     }
 
+    @Test(groups = {"regression"})
+    public void loginErrorMessageFromJsonFile() {
+        String invalidUsername = JsonReader.read("testdata/users.json").get("invalidUsername").asText();
+        String invalidPassword = JsonReader.read("testdata/users.json").get("invalidPassword").asText();
+        String expectedLoginError = JsonReader.read("testdata/users.json").get("expectedLoginError").asText();
+        LOG.info("From JSON — username: {}, password: {}, expected error: {}" , 
+        invalidUsername, invalidPassword, expectedLoginError);
+        LoginPage page = new LoginPage(getDriver())
+                .loginExpectingFailure(new User("Any", "User", invalidUsername, invalidPassword));
+        assertThat(page.errorMessage()).isEqualTo(expectedLoginError);
+    }
+
     @Test(groups = {"smoke"})
     public void invalidCredentialsShowsError() {
         String wrongUsername = JsonReader.read("testdata/users.json").get("wrongUsername").asText();
