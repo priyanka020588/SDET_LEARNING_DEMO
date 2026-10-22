@@ -12,6 +12,7 @@ import com.company.automation.pages.LoginPage;
 import com.company.automation.utils.ExcelReader;
 import java.util.Map;
 import org.testng.annotations.Test;
+import com.company.automation.utils.ScreenshotUtil;
 
 public class CheckoutTest extends BaseTest {
 
@@ -27,6 +28,8 @@ public class CheckoutTest extends BaseTest {
         CheckoutPage checkout = home.goToCheckout();
         assertThat(checkout.isLoaded()).isTrue();
         assertThat(checkout.summaryText()).contains(product.get("name"));
+
+        ScreenshotUtil.capture(getDriver(), "cart-after-add");
 
         ConfirmationPage confirmation = checkout.fillShipping(user, "12 Automation Way").placeOrder();
         assertThat(confirmation.confirmationMessage())
