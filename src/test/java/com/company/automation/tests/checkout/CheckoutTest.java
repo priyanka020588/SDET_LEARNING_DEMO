@@ -32,6 +32,7 @@ public class CheckoutTest extends BaseTest {
         ScreenshotUtil.capture(getDriver(), "cart-after-add");
 
         ConfirmationPage confirmation = checkout.fillShipping(user, "12 Automation Way").placeOrder();
+        confirmation.waitForMessageContaining(user.getFirstName());
         assertThat(confirmation.confirmationMessage())
                 .contains(user.getFirstName())
                 .contains(product.get("price"));

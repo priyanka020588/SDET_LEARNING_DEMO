@@ -19,4 +19,10 @@ public final class WaitUtils {
         new WebDriverWait(driver, Duration.ofSeconds(seconds))
                 .until(ExpectedConditions.urlContains(fragment));
     }
+
+    public static void untilTextPresent(WebDriver driver, By locator, String text, int seconds)
+    {
+        new WebDriverWait(driver, Duration.ofSeconds(seconds))
+        .until(ExpectedConditions.textToBePresentInElementLocated(locator, text)); 
+}
 }
