@@ -1,6 +1,8 @@
 package com.company.automation.pages;
 
 import com.company.automation.base.BasePage;
+import com.company.automation.config.ConfigReader;
+import com.company.automation.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -18,5 +20,12 @@ public class ConfirmationPage extends BasePage {
 
     public String confirmationMessage() {
         return readText(confirmation);
+    }
+
+    /** Waits until the order message contains the given text (e.g. user's first name). */
+    public ConfirmationPage waitForMessageContaining(String text) {
+        WaitUtils.untilTextPresent(
+                driver, confirmation, text, ConfigReader.getInt("explicitWaitSeconds"));
+        return this;
     }
 }
