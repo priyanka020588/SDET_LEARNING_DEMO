@@ -14,3 +14,5 @@ logs/
 !.cursor/skills/**
 !.cursor/rules/
 !.cursor/rules/**
+!.cursor/commands/
+!.cursor/commands/**

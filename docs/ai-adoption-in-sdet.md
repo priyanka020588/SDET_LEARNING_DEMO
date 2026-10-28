@@ -57,6 +57,14 @@ CCAF (Claude Certified AI Fluency) is the thinking model. This epic is the pract
 
 You already have one Skill: `.cursor/skills/jira-create-tickets/`. Phase 2 starts by taking that apart.
 
+### Commands (slash triggers)
+
+| Command | File | Skill | Purpose |
+|---|---|---|---|
+| `/new-page` | `.cursor/commands/new-page.md` | `new-page-object` | Generate a page object from a screen name and **verified** locators only; no tests |
+| `/new-test` | `.cursor/commands/new-test.md` | `new-testng-test` | Generate a TestNG test from page + AC + **smoke/regression** group; stop if page missing → use `/new-page`; then review checklist and run smoke per README |
+
+
 ---
 
 ## How the testing SDLC maps to this epic
