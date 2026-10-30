@@ -63,6 +63,7 @@ You already have one Skill: `.cursor/skills/jira-create-tickets/`. Phase 2 start
 |---|---|---|---|
 | `/new-page` | `.cursor/commands/new-page.md` | `new-page-object` | Generate a page object from a screen name and **verified** locators only; no tests |
 | `/new-test` | `.cursor/commands/new-test.md` | `new-testng-test` | Generate a TestNG test from page + AC + **smoke/regression** group; stop if page missing → use `/new-page`; then review checklist and run smoke per README |
+| `/triage-ci` | `.cursor/commands/triage-ci.md` | `triage-test-failure` | **Read** `logs/`, `reports/screenshots/`, `target/surefire-reports/` from disk; optional GitHub MCP for CI; paste logs only if files missing; no retry/sleep-first fixes; no code edits until category confirmed |
 
 
 ---
