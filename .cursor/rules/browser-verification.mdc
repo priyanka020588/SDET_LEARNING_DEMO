@@ -1,0 +1,52 @@
+---
+description: After UI or test changes, verify behaviour like a user (not screenshot-only); smoke when browser tools unavailable
+globs: src/main/java/**/pages/**,src/main/java/**/pages/components/**,src/test/java/**/tests/**,src/main/resources/demo-app/**
+alwaysApply: false
+---
+
+# Browser verification (SDET-58)
+
+**One line:** Confirm **behaviour**, not just appearance.
+
+## When this rule applies
+
+Work that touches user-visible Demo Shop behaviour: page objects, components, UI tests, or files under `src/main/resources/demo-app/`.
+
+## Layout or structure changed — walk like a real user
+
+If the change affects **layout, navigation, forms, or visible copy** (including `demo-app` HTML, header/cart, new screen, or locators tied to moved elements):
+
+1. Use **browser tools** (`cursor-ide-browser`): open the app (Demo Shop URL from config / `@BeforeSuite` setup).
+2. **Exercise the flow end-to-end** — navigate, click, type, submit — the same path the test or user story describes.
+3. Check **success and failure paths** the change touches (empty field, invalid login, error banner, etc.), not only the happy path.
+4. **Desktop vs mobile:** only compare both if the ticket or change explicitly affects responsive layout; otherwise desktop is enough.
+
+A **single screenshot without interaction is not verification.**
+
+## Smaller changes (proportional)
+
+Locator-only or one-line page fix with **no layout change:** re-run the **smallest relevant test** (one method or one class), not a full manual regression.
+
+## After `/new-page` or `/new-test`
+
+Before calling the work done:
+
+- Browser walk of the affected journey **or**
+- Run smoke as the minimum automated check (see below).
+
+## No browser tools in this session
+
+Say so explicitly. Substitute:
+
+```bash
+./mvnw test -DsuiteXmlFile=src/test/resources/suites/smoke.xml
+```
+
+(Use `regression.xml` only when the change is regression-scoped and smoke does not cover it.)
+
+Report pass/fail from Surefire — smoke is the substitute, not a skip.
+
+## Do not
+
+- Treat one static screenshot as “verified UI.”
+- Run full manual regression for a tiny, isolated locator tweak.

@@ -17,3 +17,4 @@ Thin trigger for the **new-page-object** Skill. Read and follow `.cursor/skills/
 
 - Use the Skill’s verification checklist.
 - Present the draft for **human review** before commit.
+- Follow **`.cursor/rules/browser-verification.mdc`** — walk the screen in the browser (especially after layout/locator changes); if browser tools are not used, say so and run smoke per `README.md` as the substitute.
