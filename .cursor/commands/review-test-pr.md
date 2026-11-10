@@ -4,6 +4,8 @@ Thin trigger for a **framework rules review** of test/framework changes — not 
 
 **One line:** AI test-code review on the **diff**, mapped to **this repo’s rules**.
 
+**Subagent (same behaviour):** `.cursor/agents/test-reviewer.md` — invoke with `/test-reviewer` when you want an isolated read-only pass. See `docs/test-reviewer-agent.md`.
+
 ## Input
 
 Prefer **changed files only**:

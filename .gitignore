@@ -16,3 +16,6 @@ logs/
 !.cursor/rules/**
 !.cursor/commands/
 !.cursor/commands/**
+!.cursor/agents/
+!.cursor/agents/**
+
