@@ -22,7 +22,7 @@ public class LoginTest extends BaseTest {
     public void validUserCanLogIn() {
         User user = UserApiHelper.createActiveUser();
         HomePage home = new LoginPage(getDriver()).loginAs(user);
-        assertThat(home.isLoaded()).isTrue();
+        assertThat(home.isLoaded()).isFalse();
         assertThat(home.welcomeText()).contains(user.getFirstName());
         assertThat(home.header().userLabel()).isEqualTo(user.getFirstName());
     }

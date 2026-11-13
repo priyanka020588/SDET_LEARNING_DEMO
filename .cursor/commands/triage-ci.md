@@ -4,6 +4,8 @@ Thin trigger for the **triage-test-failure** Skill. Read and follow `.cursor/ski
 
 **One line:** Classify first. Do not fix in the same breath.
 
+**Subagent (same behaviour):** `.cursor/agents/failure-investigator.md` — invoke with `/failure-investigator` for an isolated read-only evidence pass. Aligns with this command and the triage Skill.
+
 ## Before triage
 
 If missing, ask: **which test/suite** failed and **local** run vs **CI** (failing check name/URL when CI).
