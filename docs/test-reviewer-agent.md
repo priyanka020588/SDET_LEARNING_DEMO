@@ -3,7 +3,7 @@
 Read-only specialist for **framework-rules** review of test and page-object diffs in this repo.
 
 > **One line:** Diff in → rules check → **Blocking / Should fix / Nit** out. No code edits unless you ask after the report.
-
+ 
 ## How to run
 
 | Method | When |
