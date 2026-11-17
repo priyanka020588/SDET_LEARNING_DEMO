@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.company.automation.api.UserApiHelper;
 import com.company.automation.base.BaseTest;
+import com.company.automation.constants.AppConstants;
 import com.company.automation.data.User;
 import com.company.automation.pages.CheckoutPage;
 import com.company.automation.pages.ConfirmationPage;
@@ -15,6 +16,28 @@ import org.testng.annotations.Test;
 import com.company.automation.utils.ScreenshotUtil;
 
 public class CheckoutTest extends BaseTest {
+
+    @Test(groups = {"smoke"})
+    public void checkoutPageShowsProductInSummary() {
+        User user = UserApiHelper.createActiveUser();
+        Map<String, String> product = ExcelReader.readSheet("testdata/products.xlsx").get(0);
+
+        HomePage home = new LoginPage(getDriver()).loginAs(user);
+        home.addProductToCart(product.get("name"));
+
+        CheckoutPage checkout = home.goToCheckout();
+        assertThat(checkout.isLoaded()).isTrue();
+        assertThat(checkout.summaryText()).contains(product.get("name"));
+    }
+
+    @Test(groups = {"regression"})
+    public void emptyCartShowsEmptySummaryOnCheckout() {
+        User user = UserApiHelper.createActiveUser();
+
+        CheckoutPage checkout = new LoginPage(getDriver()).loginAs(user).goToCheckout();
+        assertThat(checkout.isLoaded()).isTrue();
+        assertThat(checkout.summaryText()).isEqualTo(AppConstants.EMPTY_CART_MESSAGE);
+    }
 
     @Test(groups = {"regression"})
     public void userCanCheckoutACatalogItem() {
